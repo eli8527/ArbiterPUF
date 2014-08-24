@@ -2,7 +2,7 @@ Arbiter PUF Implementation on an ATMEGA163 Funcard
 ==========
 
 #### README
-This repository contains all the files you will need to simulate either a 64 bit or 128 bit Arbiter PUF on an ATMEGA163 Funcard. The 'Client files' folder includes the Java classes necessary for communicating with the smartcard and is intended to be run from a computer. It also includes many test cases and reference solutions, though the ones that will run correctly with the current code are located in `Client files/64/pseudorandom`. The 'Matlab files' folder includes the MATLAB code needed to generate more delay values, challenge bits, and reference solutions. Finally, the 'Smartcard files' folder contains all necessary C files to generate a .hex file that can be flashed to the smartcard.
+This repository contains all the files you will need to simulate either a 64 bit or 128 bit Arbiter PUF on an ATMEGA163 Funcard. The 'Client files' folder includes the Java classes necessary for communicating with the smartcard and is intended to be run from a computer. It also includes many test cases and reference solutions, though the ones that will run correctly with the current code are located in `Client files/64/pseudorandom`. The `Matlab files` folder includes the MATLAB code needed to generate more delay values, challenge bits, and reference solutions. Finally, the `Smartcard files` folder contains all necessary C files to generate a .hex file that can be flashed to the smartcard.
 	
 For a step-by-step guide on how to get this running, as well as how to generate more data, see below. Most questions should be answered within this document.
 
@@ -35,8 +35,8 @@ In addition, the following hardware components will be needed:
 Once the above programs have be installed, importing the files into the programs should be relatively straightforward and therefore not included in this Readme. However, I will document the typical usage of these codes in the following pipeline.
 	
 1. Generate delay values, challenge bits, and challenge solutions in MATLAB and save to a .txt file
-2. Run 'java CardCom delayVectors.txt challengeInput.txt' in command prompt
-3. Compare results (written to challengeInput.txt-output) in Notepad++ or similar and timing
+2. Run `java CardCom delayVectors.txt challengeInput.txt` in command prompt
+3. Compare results (written to `challengeInput.txt-output`) in Notepad++ or similar and timing
 	
 For specifics, see below.
 
@@ -46,8 +46,10 @@ This section details the specifics in the MATLAB code. The MATLAB code contains 
 	
 Though this script was written by Georg Becker, there were several modifications made in order to suite the nature of this project. Several key sections will be pointed out here:
 	
-- Lines 7-9: These are the main parameteres of the script. In general, `numOfStages` should either be 128 or 64, `numOfXors` should always be 1, and `numOfInputs` can be whatever you want it to be. Keep in mind that the more inputs generated, the longer execution time will take.
+- Lines 7-9: These are the main parameters of the script. In general, `numOfStages` should either be 128 or 64, `numOfXors` should always be 1, and `numOfInputs` can be whatever you want it to be. Keep in mind that the more inputs generated, the longer execution time will take.
+
 - Lines 14-23: LFSR functions
+
 - Lines 58-76: Delay value calculation. Uncomment lines 61 and 63 in order to generate new delay values for a specified bitlength and comment out lines 64 and 75. In general, I usually generate new delay values once when changing bitlengths and then leave the values constant so that all generated input files have the same delay values (this is more convenient). To do this, I do the following:
 		
 	1. Uncomment lines 61 and 63, and comment out lines 64 and 75.
@@ -59,7 +61,9 @@ Though this script was written by Georg Becker, there were several modifications
 	6. For `delayVector`, replace all `\t` with `\n`
 
 - Lines 87-114: Standard implementation of Arbiter PUF
+
 - Lines 122-139: Alternate Implementation of Arbiter PUF
+
 - Lines 147-148: This saves the challenge bits and the output array to the current folder. These files can then be modified using Notepad++ or a similar program in order to suit the input for the Java client. To do so, follow the following steps:
 		
 	**`challenges.csv`**
@@ -80,7 +84,7 @@ Though this script was written by Georg Becker, there were several modifications
 
 The Java code is relatively straight forward. There are two main Java files and one helper file. `BitZip.java` contains functions for converting from binary to hexadecimal and vice versa. `CardCom.java` is the main file for the Arbiter PUF implementation whereas `CardComAlt.java` is the main file for the alternate implementation of the Arbiter PUF. The difference is in the delay value input.
 
-The only variable that needs to be changed is the `SIZE` variable on line 25 of `CardCom.java` and line 27 of 'CardComAlt.java' depending on if the bitlength is 64 or 128. Keep in mind that it is advisable to stick with the standard implementation of the PUF as it is faster. 
+The only variable that needs to be changed is the `SIZE` variable on line 25 of `CardCom.java` and line 27 of `CardComAlt.java` depending on if the bitlength is 64 or 128. Keep in mind that it is advisable to stick with the standard implementation of the PUF as it is faster. 
 
 Nevertheless, documentation for both is included here.
 	
@@ -88,7 +92,7 @@ Nevertheless, documentation for both is included here.
 	`javac CardCom.java`
 	`javac CardComAlt.java`
 		
-- To run:
+- To run:	
 	`java CardCom delayArray.txt challengeInput.txt`
 	`java CardComAlt delayVector.txt challengeInput.txt`
 	
