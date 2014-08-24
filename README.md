@@ -63,16 +63,18 @@ Though this script was written by Georg Becker, there were several modifications
 - Lines 147-148: This saves the challenge bits and the output array to the current folder. These files can then be modified using Notepad++ or a similar program in order to suit the input for the Java client. To do so, follow the following steps:
 		
 	**`challenges.csv`**
+	
 	1. Remove all `,`
 	2. Rename to `challengeN.txt`
 				
 	**`reference.csv`**
+	
 	1. Remove all `,`			
 	2. Rename to `referenceN.txt`
 	3. Run the following command in Powershell:
-		``(gc referenceN.txt) -replace ".{l}" , "$&`r`n" |sc referenceN.txt``			
+	``(gc referenceN.txt) -replace ".{l}" , "$&`r`n" |sc referenceN.txt``			
 	
-		Replacing N with the input size and l the bitlength (64 or 128)
+	Replacing N with the input size and l the bitlength (64 or 128)
 				
 #### CLIENT OPERATION
 
